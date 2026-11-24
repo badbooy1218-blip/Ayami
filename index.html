@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1f4fd1">
+<title>أيام عملي</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light dark;--bg:light-dark(#f4f6fb,#0f1320);--card:light-dark(#fff,#181e30);--ink:light-dark(#121826,#eef1f8);--mute:light-dark(#5b6478,#9aa3b8);--line:light-dark(#dfe3ee,#2a3249);--blue:light-dark(#1f4fd1,#7c9cff);--blue-t:light-dark(#e7edff,#1e2a52);--acc:#ff6a2b;--warn:light-dark(#b45309,#fbbf24);--bad:light-dark(#c62828,#ff8a80);--ok:light-dark(#1b7f4b,#6ee7a8)}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "IBM Plex Sans Arabic",system-ui,"Segoe UI",Roboto,sans-serif;overflow-x:clip}
+button,input,select,textarea{font:inherit;color:inherit}
+header{background:var(--blue);color:#fff;padding:calc(12px + env(safe-area-inset-top)) max(4vw,14px) 0;position:sticky;top:0;z-index:5}
+.top{display:flex;align-items:center;gap:8px}
+h1{font-size:22px;line-height:1.1;margin:0;flex:1;font-weight:700}
+.saved{display:block;font-size:12px;font-weight:500;opacity:.85;margin-top:3px;min-height:16px}
+.icon{width:44px;height:44px;border-radius:12px;border:0;background:rgba(255,255,255,.14);color:#fff;font-weight:700;cursor:pointer;position:relative;flex:none}
+.badge{position:absolute;top:4px;inset-inline-end:4px;background:var(--acc);color:#fff;font-size:11px;min-width:18px;height:18px;border-radius:9px;display:grid;place-items:center;padding:0 4px}
+.tabs{display:flex;gap:4px;margin-top:10px}
+.tabs button{flex:1;border:0;background:none;color:rgba(255,255,255,.75);padding:12px 6px;font-weight:600;border-bottom:3px solid transparent;cursor:pointer}
+.tabs button[aria-selected=true]{color:#fff;border-color:var(--acc)}
+main{max-width:720px;margin:0 auto;padding:16px max(4vw,14px) calc(100px + env(safe-area-inset-bottom))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+.nav{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.nav b{flex:1;text-align:center;font-size:18px}
+.nb{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:20px}
+:root[dir=rtl] .nb{transform:scaleX(-1)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:22px;padding:9px 16px;cursor:pointer;min-height:44px}
+.chip[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.full{grid-column:1/-1}
+label{display:block;font-size:13px;color:var(--mute);margin-bottom:4px;font-weight:500}
+input,select,textarea{width:100%;font-size:16px;padding:10px 12px;min-height:46px;border:1px solid var(--line);border-radius:10px;background:var(--bg)}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid var(--blue);outline-offset:1px}
+textarea{min-height:76px;resize:vertical}
+.result{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:14px;border-radius:12px;background:var(--blue-t);margin:14px 0}
+.result .big{font-size:clamp(34px,9vw,46px);font-weight:700;line-height:1;color:var(--blue);direction:ltr}
+.result small{color:var(--mute)}
+.quick{display:flex;gap:6px;margin-top:6px}.quick button{flex:1;border:1px solid var(--line);background:var(--card);border-radius:8px;min-height:38px;cursor:pointer;font-size:14px}
+.photos{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.ph{position:relative;width:84px;height:84px;border-radius:10px;overflow:hidden;border:1px solid var(--line);background:var(--bg)}
+.ph img{width:100%;height:100%;object-fit:cover;cursor:zoom-in}
+.ph button{position:absolute;top:3px;inset-inline-end:3px;width:26px;height:26px;border-radius:13px;border:0;background:rgba(0,0,0,.6);color:#fff;cursor:pointer}
+.add{width:84px;height:84px;border-radius:10px;border:2px dashed var(--line);background:none;display:grid;place-items:center;color:var(--mute);cursor:pointer;font-size:13px;text-align:center}
+.bar{position:fixed;bottom:0;inset-inline:0;background:var(--card);border-top:1px solid var(--line);padding:10px max(4vw,14px) calc(10px + env(safe-area-inset-bottom));display:flex;gap:10px;justify-content:center;z-index:4}
+.btn{min-height:48px;border-radius:12px;border:0;padding:0 18px;font-weight:600;cursor:pointer}
+.primary{background:var(--acc);color:#fff;flex:1;max-width:420px}
+.ghost{background:var(--bg);border:1px solid var(--line)}
+.danger{color:var(--bad)}
+.sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.sum div{background:var(--bg);border-radius:12px;padding:10px}
+.sum b{display:block;font-size:22px;direction:ltr;text-align:start}
+.sum span{font-size:12px;color:var(--mute)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:12px}
+.cal .h{font-size:11px;color:var(--mute);text-align:center}
+.d{aspect-ratio:1/1.05;border:1px solid var(--line);border-radius:8px;background:var(--card);cursor:pointer;padding:3px;display:flex;flex-direction:column;justify-content:space-between;font-size:12px;text-align:start}
+.d.work{background:var(--blue-t);border-color:var(--blue)}.d.off{opacity:.55}.d.vac{border-color:var(--ok)}
+.d.today{outline:2px solid var(--acc)}.d em{font-style:normal;font-weight:700;color:var(--blue);direction:ltr;font-size:12px}
+.d.warn::after{content:"!";color:var(--acc);font-weight:700;align-self:flex-end;line-height:1}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer;align-items:center}
+.list .dt{width:66px;font-weight:600}.list .info{flex:1;font-size:14px;color:var(--mute)}.list .hrs{font-weight:700;direction:ltr}
+.alerts{list-style:none;margin:10px 0 0;padding:0}
+.alerts li{padding:10px 12px;border-radius:10px;margin-bottom:8px;background:var(--bg);border-inline-start:4px solid var(--warn);font-size:14px;cursor:pointer}
+.alerts li.bad{border-color:var(--bad)}
+.note{font-size:13px;color:var(--mute)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.hide{display:none!important}
+.ov{position:fixed;inset:0;background:rgba(5,8,20,.7);display:grid;place-items:center;z-index:20;padding:16px}
+.ov img{max-width:100%;max-height:85vh;border-radius:10px}
+.dlg{background:var(--card);border-radius:16px;padding:18px;max-width:380px;width:100%}
+.dlg .row{justify-content:flex-end;margin-top:14px}
+.toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;z-index:30;font-size:14px;transition:opacity .3s}
+#print{display:none}
+@media print{
+  @page{size:A4;margin:14mm}
+  body{background:#fff;color:#000}
+  header,main,.bar,.toast,.ov{display:none!important}
+  #print{display:block;font-size:11pt}
+  #print h2{font-size:18pt;margin:0 0 6px}
+  #print .meta{margin:0 0 12px;color:#333}
+  #print table{width:100%;border-collapse:collapse}
+  #print th,#print td{border:1px solid #888;padding:5px 6px;text-align:start;font-size:10pt}
+  #print th{background:#e7edff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #print tfoot td{font-weight:700;background:#f3f3f3!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #print .sig{display:flex;gap:40px;margin-top:40px}#print .sig div{flex:1;border-top:1px solid #000;padding-top:4px;font-size:10pt}
+  #print thead{display:table-header-group}#print tr{break-inside:avoid}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <h1><span data-t="title">أيام عملي</span><small class="saved" id="savedTxt"></small></h1>
+    <button class="icon hide" id="install" aria-label="install">⬇</button>
+    <button class="icon" id="bell" aria-label="alerts">🔔<span class="badge hide" id="bcount">0</span></button>
+    <button class="icon" id="lang" aria-label="language">DE</button>
+  </div>
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tDay" aria-selected="true" data-t="day">يومي</button>
+    <button role="tab" id="tMonth" aria-selected="false" data-t="month">شهري</button>
+    <button role="tab" id="tMore" aria-selected="false" data-t="more">الإعدادات</button>
+  </div>
+</header>
+
+<main>
+  <section id="alertBox" class="card hide">
+    <b data-t="alerts">التنبيهات</b>
+    <ul class="alerts" id="alerts"></ul>
+  </section>
+
+  <section id="vDay">
+    <div class="nav"><button class="nb" id="dPrev" aria-label="prev">‹</button><b id="dLabel"></b><button class="nb" id="dNext" aria-label="next">›</button></div>
+    <div class="card">
+      <label data-t="type">نوع اليوم</label>
+      <div class="chips" id="types"></div>
+      <div id="workFields">
+        <div class="grid" style="margin-top:14px">
+          <div><label for="fStart" data-t="start">بداية الدوام</label><input type="time" id="fStart"></div>
+          <div><label for="fEnd" data-t="end">نهاية الدوام</label><input type="time" id="fEnd"></div>
+          <div class="full"><label for="fPause" data-t="pause">الراحة (دقائق)</label><input type="number" id="fPause" min="0" step="5" inputmode="numeric">
+            <div class="quick"><button data-p="0">0</button><button data-p="30">30</button><button data-p="45">45</button><button data-p="60">60</button></div></div>
+        </div>
+        <div class="result"><span class="big" id="net">0:00</span><small id="netTxt"></small></div>
+        <div class="grid">
+          <div><label for="fTour" data-t="tour">رقم التور</label><input id="fTour" inputmode="numeric" list="tours"></div>
+          <div><label for="fGate" data-t="gate">رقم البوابة</label><input id="fGate" list="gates"></div>
+          <div><label for="fCompany" data-t="company">الشركة</label><input id="fCompany" list="companies"></div>
+          <div><label for="fArea" data-t="area">المنطقة</label><input id="fArea" list="areas"></div>
+          <div><label for="fPartner" data-t="partner">الشريك (السواق)</label><input id="fPartner" list="partners"></div>
+          <div><label for="fPlate" data-t="plate">رقم السيارة</label><input id="fPlate" list="plates"></div>
+          <div><label for="fParcels" data-t="parcels">عدد الطرود</label><input type="number" id="fParcels" min="0" inputmode="numeric"></div>
+          <div><label for="fStops" data-t="stops">عدد الوقفات</label><input type="number" id="fStops" min="0" inputmode="numeric"></div>
+          <div><label for="fKm1" data-t="km1">كم البداية</label><input type="number" id="fKm1" min="0" inputmode="numeric"></div>
+          <div><label for="fKm2" data-t="km2">كم النهاية</label><input type="number" id="fKm2" min="0" inputmode="numeric"></div>
+          <div><label for="fRet" data-t="ret">مرتجعات</label><input type="number" id="fRet" min="0" inputmode="numeric"></div>
+        </div>
+      </div>
+      <div style="margin-top:12px"><label for="fNotes" data-t="notes">ملاحظات</label><textarea id="fNotes"></textarea></div>
+      <div style="margin-top:12px"><label data-t="photos">الصور</label>
+        <div class="photos" id="photos"></div>
+        <input type="file" id="fFile" accept="image/*" multiple class="hide">
+      </div>
+    </div>
+    <button class="btn ghost danger hide" id="del" data-t="delete">حذف اليوم</button>
+  </section>
+
+  <section id="vMonth" class="hide">
+    <div class="nav"><button class="nb" id="mPrev" aria-label="prev">‹</button><b id="mLabel"></b><button class="nb" id="mNext" aria-label="next">›</button></div>
+    <div class="card"><div class="sum" id="sum"></div><div class="cal" id="cal"></div></div>
+    <div class="card"><ul class="list" id="mList"></ul><p class="note hide" id="mEmpty" data-t="empty">ما فيه سجلات في هذا الشهر</p></div>
+  </section>
+
+  <section id="vMore" class="hide">
+    <div class="card">
+      <label for="sName" data-t="myName">اسمي (يطلع في الكشف)</label>
+      <input id="sName">
+    </div>
+    <div class="card">
+      <b data-t="notifTitle">الإشعارات</b>
+      <p class="note" data-t="notifTxt">لما تفتح التطبيق بعد الساعة اللي تختارها وما سجلت يومك، يطلع لك إشعار.</p>
+      <div class="grid">
+        <div><label for="sTime" data-t="remindAt">ذكرني الساعة</label><input type="time" id="sTime"></div>
+        <div style="display:flex;align-items:flex-end"><button class="btn ghost" id="notifBtn" style="width:100%" data-t="notifOn">تفعيل الإشعارات</button></div>
+      </div>
+      <p class="note" id="notifState"></p>
+    </div>
+    <div class="card">
+      <b data-t="backup">نسخة احتياطية</b>
+      <p class="note" data-t="backupTxt">كل شي محفوظ على جوالك. سوّ نسخة احتياطية كل فترة عشان لو غيرت الجوال ما تضيع بياناتك.</p>
+      <div class="row"><button class="btn ghost" id="exp" data-t="export">حفظ نسخة</button><button class="btn ghost" id="impBtn" data-t="import">استرجاع نسخة</button><input type="file" id="imp" accept=".json,application/json" class="hide"></div>
+    </div>
+    <div class="card" id="installCard">
+      <b data-t="installTitle">تثبيت على الجوال</b>
+      <p class="note" data-t="installTxt">في Chrome: ⋮ ← «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».</p>
+    </div>
+  </section>
+</main>
+
+<div class="bar" id="barDay"><button class="btn primary" id="save" data-t="save">حفظ</button></div>
+<div class="bar hide" id="barMonth"><button class="btn primary" id="pdf" data-t="pdf">كشف حساب PDF</button></div>
+
+<datalist id="tours"></datalist><datalist id="gates"></datalist><datalist id="companies"></datalist><datalist id="areas"></datalist><datalist id="partners"></datalist><datalist id="plates"></datalist>
+<div id="print"></div>
+
+<script>
+{
+const T={
+ar:{title:'أيام عملي',day:'يومي',month:'شهري',more:'الإعدادات',alerts:'التنبيهات',type:'نوع اليوم',start:'بداية الدوام',end:'نهاية الدوام',pause:'الراحة (دقائق)',tour:'رقم التور',gate:'رقم البوابة',company:'الشركة',area:'المنطقة',partner:'الشريك (السواق)',plate:'رقم السيارة',parcels:'عدد الطرود',stops:'عدد الوقفات',km1:'كم البداية',km2:'كم النهاية',ret:'مرتجعات',notes:'ملاحظات',photos:'الصور',delete:'حذف اليوم',save:'حفظ',pdf:'كشف حساب PDF',empty:'ما فيه سجلات في هذا الشهر',
+ work:'شغل',off:'عطلة',vac:'إجازة',net:'ساعات صافية',gross:'إجمالي',km:'كم',addPhoto:'+ صورة',
+ sDays:'أيام شغل',sHours:'ساعات العمل',sKm:'كيلومتر',sParcels:'طرود',sPause:'ساعات راحة',sVac:'أيام إجازة',
+ autoSaved:'انحفظ تلقائياً ✓',saving:'يحفظ…',saved:'انحفظ ✓',deleted:'انحذف',saveErr:'ما انحفظ',confirmDel:'تحذف سجل هذا اليوم؟ الصور تنحذف معه.',yes:'احذف',no:'إلغاء',
+ aMissing:'ما سجلت يوم {d}',aPause:'{d}: الراحة {p} دقيقة، والقانون يطلب {r} دقيقة على الأقل',aLong:'{d}: شغلت أكثر من 10 ساعات ({h})',aRest:'{d}: الراحة بين الدوامين {h} بس، المفروض 11 ساعة',aTour:'{d}: رقم التور ناقص',aGate:'{d}: رقم البوابة ناقص',aToday:'ما سجلت يومك اليوم',noAlerts:'كل شي تمام، ما فيه تنبيهات',
+ week:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],weekS:['أحد','اثنين','ثلاثاء','أربعاء','خميس','جمعة','سبت'],
+ stTitle:'كشف حساب أيام العمل',stName:'الاسم',stMonth:'الشهر',stCols:['#','التاريخ','اليوم','رقم التور','البوابة','الشركة','المنطقة','من','إلى','الساعات'],stTotal:'الإجمالي',stDays:'إجمالي أيام العمل',stHours:'إجمالي الساعات',stSign:'التوقيع',stDate:'تاريخ الإصدار',stNone:'ما فيه أيام شغل في هذا الشهر',
+ myName:'اسمي (يطلع في الكشف)',notifTitle:'الإشعارات',notifTxt:'لما تفتح التطبيق بعد الساعة اللي تختارها وما سجلت يومك، يطلع لك إشعار.',remindAt:'ذكرني الساعة',notifOn:'تفعيل الإشعارات',notifYes:'الإشعارات مفعّلة ✓',notifNo:'الإشعارات مرفوضة. فعّلها من إعدادات الجوال للتطبيق.',notifNA:'الإشعارات مو مدعومة هنا. ثبّت التطبيق أول.',
+ backup:'نسخة احتياطية',backupTxt:'كل شي محفوظ على جوالك. سوّ نسخة احتياطية كل فترة عشان لو غيرت الجوال ما تضيع بياناتك.',export:'حفظ نسخة',import:'استرجاع نسخة',imported:'رجعت {n} يوم ✓',badFile:'الملف مو صحيح',
+ installTitle:'تثبيت على الجوال',installTxt:'في Chrome: ⋮ ← «تثبيت التطبيق» أو «إضافة إلى الشاشة الرئيسية».',nTitle:'أيام عملي',nBody:'ما سجلت يومك اليوم. سجله الحين.'},
+de:{title:'Meine Arbeitstage',day:'Tag',month:'Monat',more:'Einstellungen',alerts:'Hinweise',type:'Art des Tages',start:'Arbeitsbeginn',end:'Arbeitsende',pause:'Pause (Minuten)',tour:'Tour-Nr.',gate:'Tor-Nr.',company:'Firma',area:'Gebiet',partner:'Partner (Fahrer)',plate:'Kennzeichen',parcels:'Pakete',stops:'Stopps',km1:'km Start',km2:'km Ende',ret:'Retouren',notes:'Notizen',photos:'Fotos',delete:'Tag löschen',save:'Speichern',pdf:'Nachweis als PDF',empty:'Keine Einträge in diesem Monat',
+ work:'Arbeit',off:'Frei',vac:'Urlaub',net:'Netto-Stunden',gross:'Brutto',km:'km',addPhoto:'+ Foto',
+ sDays:'Arbeitstage',sHours:'Arbeitsstunden',sKm:'Kilometer',sParcels:'Pakete',sPause:'Pausenstunden',sVac:'Urlaubstage',
+ autoSaved:'Automatisch gespeichert ✓',saving:'Speichert…',saved:'Gespeichert ✓',deleted:'Gelöscht',saveErr:'Nicht gespeichert',confirmDel:'Eintrag dieses Tages löschen? Die Fotos werden mitgelöscht.',yes:'Löschen',no:'Abbrechen',
+ aMissing:'Kein Eintrag für {d}',aPause:'{d}: Pause {p} Min., gesetzlich mindestens {r} Min.',aLong:'{d}: mehr als 10 Stunden gearbeitet ({h})',aRest:'{d}: nur {h} Ruhezeit, vorgeschrieben sind 11 Std.',aTour:'{d}: Tour-Nr. fehlt',aGate:'{d}: Tor-Nr. fehlt',aToday:'Heute noch nicht eingetragen',noAlerts:'Alles in Ordnung, keine Hinweise',
+ week:['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],weekS:['So','Mo','Di','Mi','Do','Fr','Sa'],
+ stTitle:'Nachweis der Arbeitstage',stName:'Name',stMonth:'Monat',stCols:['Nr.','Datum','Tag','Tour','Tor','Firma','Gebiet','von','bis','Std.'],stTotal:'Summe',stDays:'Arbeitstage gesamt',stHours:'Stunden gesamt',stSign:'Unterschrift',stDate:'Erstellt am',stNone:'Keine Arbeitstage in diesem Monat',
+ myName:'Mein Name (erscheint im Nachweis)',notifTitle:'Benachrichtigungen',notifTxt:'Wenn du die App nach der gewählten Uhrzeit öffnest und den Tag noch nicht eingetragen hast, kommt eine Benachrichtigung.',remindAt:'Erinnern um',notifOn:'Benachrichtigungen an',notifYes:'Benachrichtigungen aktiv ✓',notifNo:'Benachrichtigungen abgelehnt. In den Handy-Einstellungen für die App erlauben.',notifNA:'Benachrichtigungen hier nicht unterstützt. Erst die App installieren.',
+ backup:'Sicherung',backupTxt:'Alles ist auf deinem Handy gespeichert. Mach ab und zu eine Sicherung, damit beim Handywechsel nichts verloren geht.',export:'Sicherung speichern',import:'Sicherung laden',imported:'{n} Tage geladen ✓',badFile:'Datei ungültig',
+ installTitle:'Auf dem Handy installieren',installTxt:'In Chrome: ⋮ → „App installieren“ oder „Zum Startbildschirm hinzufügen“.',nTitle:'Meine Arbeitstage',nBody:'Heute noch nicht eingetragen. Jetzt eintragen.'}};
+const TYPES=['work','off','vac'];
+const F={start:'fStart',end:'fEnd',pause:'fPause',tour:'fTour',gate:'fGate',company:'fCompany',area:'fArea',partner:'fPartner',plate:'fPlate',parcels:'fParcels',stops:'fStops',km1:'fKm1',km2:'fKm2',ret:'fRet',notes:'fNotes'};
+const CARRY=['tour','gate','company','area','partner','plate'];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let lang=LS.get('lang','ar');
+const t=k=>T[lang][k]??k;
+const fmt=(s,o)=>s.replace(/\{(\w)\}/g,(_,k)=>o[k]);
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const parse=s=>{const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const addD=(s,n)=>{const d=parse(s);d.setDate(d.getDate()+n);return iso(d)};
+const shiftM=(m,n)=>{const[y,mm]=m.split('-').map(Number);return iso(new Date(y,mm-1+n,1)).slice(0,7)};
+const loc=()=>lang==='ar'?'ar-EG-u-nu-latn':'de-DE';
+const mName=m=>{const[y,mm]=m.split('-').map(Number);return new Date(y,mm-1,1).toLocaleDateString(loc(),{month:'long',year:'numeric'})};
+const dmy=s=>{const[y,m,d]=s.split('-');return`${d}.${m}.${y}`};
+const hm=min=>`${Math.floor(min/60)}:${String(Math.round(min%60)).padStart(2,'0')}`;
+const toMin=s=>{if(!s)return null;const[h,m]=s.split(':').map(Number);return h*60+m};
+const kmOf=e=>(e&&e.type==='work'&&+e.km2&&+e.km1&&+e.km2>=+e.km1)?e.km2-e.km1:0;
+function calc(e){if(!e||e.type!=='work')return{gross:0,net:0};const a=toMin(e.start),b=toMin(e.end);if(a==null||b==null)return{gross:0,net:0};let g=b-a;if(g<0)g+=1440;return{gross:g,net:Math.max(0,g-(+e.pause||0))}}
+
+/* ---------- storage: IndexedDB on the phone (localStorage fallback) ---------- */
+let idb=null;
+function openDB(){return new Promise(res=>{try{const r=indexedDB.open('ayami',1);r.onupgradeneeded=()=>{const d=r.result;d.createObjectStore('days',{keyPath:'date'});d.createObjectStore('photos')};r.onsuccess=()=>res(r.result);r.onerror=()=>res(null)}catch(e){res(null)}})}
+const tx=(store,mode,fn)=>new Promise((res,rej)=>{const x=idb.transaction(store,mode);const s=x.objectStore(store);const out=fn(s);x.oncomplete=()=>res(out&&out.result);x.onerror=()=>rej(x.error)});
+async function loadAll(){if(!idb)return LS.get('days',{});const arr=await tx('days','readonly',s=>s.getAll());const o={};(arr||[]).forEach(e=>o[e.date]=e);return o}
+async function putDay(e){if(!idb){const all=LS.get('days',{});all[e.date]=e;LS.set('days',all);return}await tx('days','readwrite',s=>s.put(e))}
+async function delDay(d){if(!idb){const all=LS.get('days',{});delete all[d];LS.set('days',all);return}await tx('days','readwrite',s=>s.delete(d))}
+async function putPhoto(id,blob){if(idb)await tx('photos','readwrite',s=>s.put(blob,id))}
+async function getPhoto(id){if(!idb)return null;return tx('photos','readonly',s=>s.get(id))}
+async function delPhoto(id){if(idb)await tx('photos','readwrite',s=>s.delete(id))}
+const urls={};async function photoURL(id){if(urls[id])return urls[id];const b=await getPhoto(id);if(!b)return'';return urls[id]=URL.createObjectURL(b)}
+
+let entries={};let cur=iso(new Date());let mon=cur.slice(0,7);let draft=null;let timer=null;let view='day';
+
+function toast(msg){const d=document.createElement('div');d.className='toast';d.textContent=msg;document.body.appendChild(d);setTimeout(()=>{d.style.opacity='0';setTimeout(()=>d.remove(),400)},1800)}
+function ask(msg){return new Promise(res=>{const o=document.createElement('div');o.className='ov';o.innerHTML='<div class="dlg" role="dialog"><p></p><div class="row"><button class="btn ghost"></button><button class="btn primary" style="flex:none"></button></div></div>';o.querySelector('p').textContent=msg;const[b0,b1]=o.querySelectorAll('button');b0.textContent=t('no');b1.textContent=t('yes');b0.onclick=()=>{o.remove();res(false)};b1.onclick=()=>{o.remove();res(true)};document.body.appendChild(o)})}
+function savedTxt(k){$('savedTxt').textContent=k?t(k):''}
+
+function applyLang(){document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';$('lang').textContent=lang==='ar'?'DE':'ع';document.querySelectorAll('[data-t]').forEach(el=>el.textContent=t(el.dataset.t));document.title=t('title');renderAll()}
+
+/* ---------- day ---------- */
+function blank(){const last=Object.values(entries).filter(e=>e.type==='work').sort((a,b)=>a.date<b.date?1:-1)[0]||{};const e={date:cur,type:'work',start:LS.get('lastStart',''),end:'',pause:'',parcels:'',stops:'',km1:last.km2||'',km2:'',ret:'',notes:'',photos:[]};CARRY.forEach(k=>e[k]=last[k]||'');return e}
+function loadDay(){draft=entries[cur]?structuredClone(entries[cur]):blank();draft.photos=draft.photos||[];fillDay()}
+function fillDay(){$('dLabel').textContent=parse(cur).toLocaleDateString(loc(),{weekday:'long',day:'numeric',month:'long'});
+ $('types').innerHTML=TYPES.map(k=>`<button class="chip" data-type="${k}" aria-pressed="${draft.type===k}">${esc(t(k))}</button>`).join('');
+ for(const[k,id]of Object.entries(F))$(id).value=draft[k]??'';
+ $('workFields').classList.toggle('hide',draft.type!=='work');$('del').classList.toggle('hide',!entries[cur]);renderPhotos();renderNet()}
+function renderNet(){const c=calc(draft);$('net').textContent=hm(c.net);const k=kmOf(draft);$('netTxt').textContent=`${t('net')} · ${t('gross')} ${hm(c.gross)}${k?` · ${k} ${t('km')}`:''}`}
+async function renderPhotos(){const ids=draft.photos.slice();const srcs=await Promise.all(ids.map(photoURL));$('photos').innerHTML=ids.map((id,i)=>`<div class="ph"><img src="${esc(srcs[i])}" alt="" data-big="${i}"><button data-rm="${i}" aria-label="x">×</button></div>`).join('')+(idb?`<button class="add" id="addPh">${esc(t('addPhoto'))}</button>`:'')}
+async function compress(file){try{const bmp=await createImageBitmap(file);const s=Math.min(1,1600/Math.max(bmp.width,bmp.height));const c=document.createElement('canvas');c.width=Math.round(bmp.width*s);c.height=Math.round(bmp.height*s);c.getContext('2d').drawImage(bmp,0,0,c.width,c.height);return await new Promise(r=>c.toBlob(b=>r(b||file),'image/jpeg',.82))}catch(e){return file}}
+
+function touched(){savedTxt('saving');clearTimeout(timer);timer=setTimeout(()=>save(true),700);renderNet();renderAlerts()}
+$('types').onclick=e=>{const b=e.target.closest('[data-type]');if(!b)return;draft.type=b.dataset.type;$('types').querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.type===draft.type));$('workFields').classList.toggle('hide',draft.type!=='work');touched()};
+for(const[k,id]of Object.entries(F))$(id).addEventListener('input',()=>{draft[k]=$(id).value;touched()});
+document.querySelector('.quick').onclick=e=>{const p=e.target.dataset.p;if(p==null)return;draft.pause=p;$('fPause').value=p;touched()};
+$('photos').onclick=async e=>{if(e.target.id==='addPh')return $('fFile').click();const rm=e.target.dataset.rm;if(rm!=null){const [id]=draft.photos.splice(+rm,1);renderPhotos();await save(true);delPhoto(id).catch(()=>{});return}const big=e.target.dataset.big;if(big!=null){const o=document.createElement('div');o.className='ov';const im=document.createElement('img');im.src=await photoURL(draft.photos[+big]);o.appendChild(im);o.onclick=()=>o.remove();document.body.appendChild(o)}};
+$('fFile').onchange=async e=>{const files=[...e.target.files];e.target.value='';for(const f of files){try{const b=await compress(f);const id='p'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);await putPhoto(id,b);draft.photos.push(id);renderPhotos();await save(true)}catch(err){toast(t('saveErr'))}}};
+$('dPrev').onclick=()=>go(addD(cur,-1));$('dNext').onclick=()=>go(addD(cur,1));
+async function flush(){if(timer){clearTimeout(timer);timer=null;await save(true)}}
+async function go(d){await flush();cur=d;loadDay();renderAlerts()}
+
+async function save(auto){timer=null;const e=structuredClone(draft);e.date=cur;e.updated=Date.now();
+ if(e.type!=='work')for(const k of['start','end','pause','tour','gate','company','area','partner','plate','parcels','stops','km1','km2','ret'])e[k]='';
+ const empty=e.type==='work'&&!e.start&&!e.end&&!e.notes&&!e.photos.length&&!entries[cur];if(empty&&auto){savedTxt('');return}
+ try{await putDay(e);entries[cur]=e;if(e.start)LS.set('lastStart',e.start);savedTxt(auto?'autoSaved':'saved');if(!auto)toast(t('saved'));$('del').classList.remove('hide');renderAlerts();updateLists()}catch(err){savedTxt('saveErr');toast(t('saveErr'))}}
+$('save').onclick=()=>{clearTimeout(timer);save(false)};
+$('del').onclick=async()=>{if(!(await ask(t('confirmDel'))))return;clearTimeout(timer);timer=null;const e=entries[cur];try{await delDay(cur);delete entries[cur];if(e&&e.photos)for(const id of e.photos)delPhoto(id).catch(()=>{});toast(t('deleted'));loadDay();renderAlerts();savedTxt('')}catch(err){toast(t('saveErr'))}};
+
+/* ---------- month ---------- */
+const monthEntries=m=>Object.values(entries).filter(e=>e.date.startsWith(m)).sort((a,b)=>a.date<b.date?-1:1);
+function stats(es){let net=0,pause=0,km=0,parcels=0;es.forEach(e=>{if(e.type!=='work')return;net+=calc(e).net;pause+=+e.pause||0;km+=kmOf(e);parcels+=+e.parcels||0});return{days:es.filter(e=>e.type==='work').length,vac:es.filter(e=>e.type==='vac').length,net,pause,km,parcels}}
+function renderMonth(){const[y,m]=mon.split('-').map(Number);const first=new Date(y,m-1,1);$('mLabel').textContent=mName(mon);const es=monthEntries(mon);const s=stats(es);
+ $('sum').innerHTML=[[t('sDays'),s.days],[t('sHours'),hm(s.net)],[t('sKm'),s.km],[t('sParcels'),s.parcels],[t('sPause'),hm(s.pause)],[t('sVac'),s.vac]].map(([l,v])=>`<div><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join('');
+ const warn=new Set(issues().map(i=>i.date));const days=new Date(y,m,0).getDate();const today=iso(new Date());
+ let h=t('weekS').map(w=>`<div class="h">${esc(w)}</div>`).join('')+'<div></div>'.repeat(first.getDay());
+ for(let d=1;d<=days;d++){const k=`${mon}-${String(d).padStart(2,'0')}`;const e=entries[k];h+=`<button class="d ${e?e.type:''} ${k===today?'today':''} ${warn.has(k)?'warn':''}" data-go="${k}"><span>${d}</span>${e&&e.type==='work'?`<em>${hm(calc(e).net)}</em>`:e?`<span style="font-size:10px">${esc(t(e.type))}</span>`:''}</button>`}
+ $('cal').innerHTML=h;
+ $('mList').innerHTML=es.map(e=>{const info=e.type==='work'?[e.start&&`${e.start}–${e.end}`,e.tour&&`${t('tour')} ${e.tour}`,e.gate&&`${t('gate')} ${e.gate}`,e.company,e.area].filter(Boolean).join(' · '):t(e.type);return`<li data-go="${e.date}"><span class="dt">${esc(parse(e.date).toLocaleDateString(loc(),{weekday:'short',day:'numeric'}))}</span><span class="info">${esc(info)}</span><span class="hrs">${e.type==='work'?hm(calc(e).net):''}</span></li>`}).join('');
+ $('mEmpty').classList.toggle('hide',es.length>0)}
+$('mPrev').onclick=()=>{mon=shiftM(mon,-1);renderMonth()};$('mNext').onclick=()=>{mon=shiftM(mon,1);renderMonth()};
+document.addEventListener('click',async e=>{const g=e.target.closest('[data-go]');if(!g)return;await go(g.dataset.go);show('day')});
+
+/* ---------- statement (Kontoauszug) → print → Save as PDF ---------- */
+$('pdf').onclick=()=>{const es=monthEntries(mon).filter(e=>e.type==='work');const s=stats(es);const name=LS.get('name','');const w=t('week');
+ const rows=es.map((e,i)=>`<tr><td>${i+1}</td><td>${dmy(e.date)}</td><td>${esc(w[parse(e.date).getDay()])}</td><td>${esc(e.tour)}</td><td>${esc(e.gate)}</td><td>${esc(e.company)}</td><td>${esc(e.area)}</td><td>${esc(e.start)}</td><td>${esc(e.end)}</td><td>${e.start&&e.end?hm(calc(e).net):''}</td></tr>`).join('');
+ $('print').dir=lang==='ar'?'rtl':'ltr';
+ $('print').innerHTML=`<h2>${esc(t('stTitle'))}</h2><p class="meta">${esc(t('stName'))}: <b>${esc(name)}</b> &nbsp;·&nbsp; ${esc(t('stMonth'))}: <b>${esc(mName(mon))}</b> &nbsp;·&nbsp; ${esc(t('stDate'))}: ${dmy(iso(new Date()))}</p>
+ <table><thead><tr>${t('stCols').map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${rows||`<tr><td colspan="10">${esc(t('stNone'))}</td></tr>`}</tbody>
+ <tfoot><tr><td colspan="7">${esc(t('stDays'))}: ${s.days}</td><td colspan="2">${esc(t('stHours'))}</td><td>${hm(s.net)}</td></tr></tfoot></table>
+ <div class="sig"><div>${esc(t('stName'))}</div><div>${esc(t('stSign'))}</div></div>`;
+ const old=document.title;document.title=`${t('stTitle')} ${mon}`;setTimeout(()=>{window.print();document.title=old},100)};
+
+/* ---------- alerts + notifications ---------- */
+function issues(){const out=[];const today=iso(new Date());const short=d=>parse(d).toLocaleDateString(loc(),{weekday:'short',day:'numeric',month:'numeric'});
+ const remind=LS.get('remind','18:00');const now=new Date();if(!entries[today]&&now.getDay()!==0&&now.getHours()*60+now.getMinutes()>=toMin(remind))out.push({date:today,bad:false,msg:t('aToday')});
+ for(let i=1;i<=3;i++){const d=addD(today,-i);if(parse(d).getDay()!==0&&!entries[d])out.push({date:d,bad:false,msg:fmt(t('aMissing'),{d:short(d)})})}
+ const all={...entries};if(draft)all[cur]=draft;
+ for(const e of Object.values(all)){if(e.type!=='work'||e.date<addD(today,-45))continue;const c=calc(e);const p=+e.pause||0;const req=c.net>540?45:c.net>360?30:0;const d=short(e.date);
+  if(req&&p<req)out.push({date:e.date,bad:true,msg:fmt(t('aPause'),{d,p,r:req})});
+  if(c.net>600)out.push({date:e.date,bad:true,msg:fmt(t('aLong'),{d,h:hm(c.net)})});
+  const prev=all[addD(e.date,-1)];if(prev&&prev.type==='work'&&prev.start&&prev.end&&e.start){let rest=toMin(e.start)+1440-toMin(prev.end);if(toMin(prev.end)<toMin(prev.start))rest-=1440;if(rest<660)out.push({date:e.date,bad:true,msg:fmt(t('aRest'),{d,h:hm(rest)})})}
+  if(e.start&&!e.tour)out.push({date:e.date,bad:false,msg:fmt(t('aTour'),{d})});
+  if(e.start&&!e.gate)out.push({date:e.date,bad:false,msg:fmt(t('aGate'),{d})})}
+ return out.sort((a,b)=>a.date<b.date?1:-1)}
+function renderAlerts(){const is=issues();const n=is.length;$('bcount').textContent=n;$('bcount').classList.toggle('hide',!n);
+ $('alerts').innerHTML=n?is.map(i=>`<li class="${i.bad?'bad':''}" data-go="${i.date}">${esc(i.msg)}</li>`).join(''):`<li style="border-color:var(--ok)">${esc(t('noAlerts'))}</li>`}
+$('bell').onclick=()=>$('alertBox').classList.toggle('hide');
+function notifState(){const el=$('notifState');if(!('Notification' in window)){el.textContent=t('notifNA');return}el.textContent=Notification.permission==='granted'?t('notifYes'):Notification.permission==='denied'?t('notifNo'):''}
+$('notifBtn').onclick=async()=>{if(!('Notification' in window)){notifState();return}try{await Notification.requestPermission()}catch(e){}notifState();checkNotify(true)};
+async function checkNotify(force){if(!('Notification' in window)||Notification.permission!=='granted')return;const today=iso(new Date());if(entries[today]||new Date().getDay()===0)return;const now=new Date();if(now.getHours()*60+now.getMinutes()<toMin(LS.get('remind','18:00')))return;if(!force&&LS.get('notified','')===today)return;LS.set('notified',today);
+ try{const reg=await navigator.serviceWorker?.getRegistration();if(reg)reg.showNotification(t('nTitle'),{body:t('nBody'),icon:'icon-192.png',tag:'ayami-today'});else new Notification(t('nTitle'),{body:t('nBody'),icon:'icon-192.png'})}catch(e){}}
+setInterval(()=>{renderAlerts();checkNotify(false)},5*60*1000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){renderAlerts();checkNotify(false)}else flush()});
+
+/* ---------- settings: name, reminder, backup ---------- */
+$('sName').addEventListener('input',()=>LS.set('name',$('sName').value.trim()));
+$('sTime').addEventListener('change',()=>{LS.set('remind',$('sTime').value||'18:00');renderAlerts()});
+function download(name,text){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:'application/json'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}
+$('exp').onclick=async()=>{await flush();const photos={};for(const e of Object.values(entries))for(const id of e.photos||[]){const b=await getPhoto(id);if(b)photos[id]=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(b)})}
+ download(`ayami-backup-${iso(new Date())}.json`,JSON.stringify({app:'ayami',v:1,name:LS.get('name',''),days:Object.values(entries),photos}))};
+$('impBtn').onclick=()=>$('imp').click();
+$('imp').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;try{const d=JSON.parse(await f.text());if(d.app!=='ayami'||!Array.isArray(d.days))throw 0;
+ for(const[id,url]of Object.entries(d.photos||{})){const b=await (await fetch(url)).blob();await putPhoto(id,b)}
+ for(const day of d.days)if(day&&day.date){await putDay(day);entries[day.date]=day}if(d.name&&!LS.get('name',''))LS.set('name',d.name);toast(fmt(t('imported'),{n:d.days.length}));loadDay();renderAll()}catch(err){toast(t('badFile'))}};
+
+/* ---------- install prompt ---------- */
+let deferred=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('install').classList.remove('hide')});
+$('install').onclick=async()=>{if(!deferred)return;deferred.prompt();await deferred.userChoice.catch(()=>{});deferred=null;$('install').classList.add('hide')};
+if(matchMedia('(display-mode: standalone)').matches)$('installCard').classList.add('hide');
+
+/* ---------- views ---------- */
+function show(v){view=v;for(const[k,id]of[['day','vDay'],['month','vMonth'],['more','vMore']])$(id).classList.toggle('hide',v!==k);$('tDay').setAttribute('aria-selected',v==='day');$('tMonth').setAttribute('aria-selected',v==='month');$('tMore').setAttribute('aria-selected',v==='more');$('barDay').classList.toggle('hide',v!=='day');$('barMonth').classList.toggle('hide',v!=='month');if(v==='month')renderMonth();if(v==='more'){$('sName').value=LS.get('name','');$('sTime').value=LS.get('remind','18:00');notifState()}window.scrollTo(0,0)}
+$('tDay').onclick=()=>show('day');$('tMonth').onclick=async()=>{await flush();mon=cur.slice(0,7);show('month')};$('tMore').onclick=async()=>{await flush();show('more')};
+$('lang').onclick=()=>{lang=lang==='ar'?'de':'ar';LS.set('lang',lang);applyLang()};
+function updateLists(){const uniq=k=>[...new Set(Object.values(entries).sort((a,b)=>a.date<b.date?1:-1).map(e=>e[k]).filter(Boolean))].slice(0,30).map(v=>`<option value="${esc(v)}">`).join('');for(const[k,id]of[['tour','tours'],['gate','gates'],['company','companies'],['area','areas'],['partner','partners'],['plate','plates']])$(id).innerHTML=uniq(k)}
+function renderAll(){if(draft)fillDay();renderAlerts();if(view==='month')renderMonth();if(view==='more')notifState()}
+
+(async()=>{idb=await openDB();entries=await loadAll();if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});updateLists();loadDay();applyLang();checkNotify(false)})();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>
